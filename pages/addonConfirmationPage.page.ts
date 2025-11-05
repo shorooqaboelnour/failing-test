@@ -2,63 +2,21 @@ import { BasePage } from './BasePage.page';
 import { expect } from '@playwright/test';
 
 export class AddonConfirmationPage extends BasePage {
-  get continueButton() {
-    // Priority: data-test > id > type submit > text
-    return this.page.locator(
-      '[data-test="selling-flow-submit-button"], ' +
-      'button[data-test*="submit"], ' +
-      'button[id*="submit"], ' +
-      'button[id*="continue"], ' +
-      'button[type="submit"]:has-text("Weiter"), ' +
-      'button:has-text("Weiter")'
-    ).first();
+  get addonConfirmationCheckbox() {
+    return this.page.getByTestId('addons_gpsTracking');
   }
 
-  async verifyAddonConfirmationPageLoaded(): Promise<void> {
-    await expect(this.page).toHaveURL(/\/ebike\/addon-confirmation/);
-    await this.page.waitForLoadState('networkidle');
+  get gpsPermissionCheckbox() {
+    return this.page
+      .getByTestId('input-wrapper-values_gpsPermissionCheck')
+      .locator('label');
   }
 
-  async clickContinue(): Promise<void> {
-    // Try multiple selectors
-    const buttonSelectors = [
-      '[data-test="selling-flow-submit-button"]',
-      'button[data-test="selling-flow-submit-button"]',
-      '[data-test*="submit-button"]',
-      'button[data-test*="submit"]',
-      'button[id*="submit"]',
-      'button[id*="continue"]',
-      'button[type="submit"]',
-      'button:has-text("Weiter")'
-    ];
-    
-    let clicked = false;
-    for (const selector of buttonSelectors) {
-      try {
-        const button = this.page.locator(selector).first();
-        if (await button.count() > 0) {
-          await button.waitFor({ state: 'visible', timeout: 10000 });
-          await button.scrollIntoViewIfNeeded();
-          await this.page.waitForTimeout(500);
-          await button.click();
-          clicked = true;
-          break;
-        }
-      } catch (e) {
-        continue;
-      }
-    }
-    
-    if (!clicked) {
-      // Fallback to the getter
-      await this.continueButton.waitFor({ state: 'visible', timeout: 15000 });
-      await this.continueButton.scrollIntoViewIfNeeded();
-      await this.page.waitForTimeout(500);
-      await this.continueButton.click();
-    }
-    
-    await this.page.waitForLoadState('networkidle');
-    await this.page.waitForTimeout(1000);
+  async clickAddonConfirmationCheckbox(): Promise<void> {
+    await this.addonConfirmationCheckbox.click();
+  }
+
+  async clickGpsPermissionCheckbox(): Promise<void> {
+    await this.gpsPermissionCheckbox.click();
   }
 }
-

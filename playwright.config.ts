@@ -14,6 +14,7 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     headless: false,
+    testIdAttribute: 'data-test',
   },
   projects: [
     {
