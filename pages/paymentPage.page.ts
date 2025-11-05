@@ -12,7 +12,11 @@ export class PaymentPage extends BasePage {
   }
 
   async submitPayment(): Promise<void> {
+    await this.submitPaymentButton.waitFor({ state: 'visible', timeout: 15000 });
+    await this.submitPaymentButton.scrollIntoViewIfNeeded();
+    await this.page.waitForTimeout(500);
     await this.submitPaymentButton.click();
+    await this.page.waitForLoadState('networkidle');
   }
 }
 

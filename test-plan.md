@@ -47,8 +47,19 @@ Tests are prioritized based on:
 | TC-012 | Address Autocomplete Edge Cases | Validates address handling when autocomplete fails | Medium | Planned |
 | TC-013 | Payment Method Selection | Validates multiple payment options work correctly | Medium | Planned |
 | TC-014 | Payment Form Field Validation | Validates payment form inputs (CVV, expiry, etc.) | High | Planned |
+| TC-015 | Bike Type Selection | Validates different bike types are selectable and work correctly | High | Planned |
+| TC-016 | Lock Confirmation Checkbox | Validates lock confirmation requirement is enforced | Medium | Planned |
+| TC-017 | Frame Number Validation | Validates frame number input format and validation | Medium | Planned |
+| TC-018 | Address Suggestion Selection | Validates address autocomplete suggestions work correctly | Medium | Planned |
+| TC-019 | Navigation Back/Forward | Validates user can navigate back and forward through form steps | Medium | Planned |
+| TC-020 | Cookie Banner Handling | Validates cookie consent banner appears and can be dismissed | Low | Planned |
+| TC-021 | Quote Continue Page Handling | Validates quote-continue page is handled correctly | Medium | Planned |
+| TC-022 | Multiple Browser Sessions | Validates form works across different browser sessions | Medium | Planned |
+| TC-023 | Form Timeout Handling | Validates form behavior when session times out | Medium | Planned |
+| TC-024 | Invalid Date Format Handling | Validates system rejects invalid date formats | High | Planned |
+| TC-025 | Special Characters in Input Fields | Validates special characters are handled correctly in text fields | Medium | Planned |
 
-**Total:** 14 scenarios | **Implemented:** 3 (TC-007 covered by TC-002) | **Planned:** 10
+**Total:** 25 scenarios | **Implemented:** 3 | **Planned:** 22
 
 ---
 
@@ -351,9 +362,9 @@ Not all addresses will autocomplete (invalid addresses, new addresses, internati
 
 ### Test Architecture
 - **Page Object Model:** Maintainable, reusable page objects
-- **Flow Utilities:** Reusable functions for common journeys
 - **Test Data:** Centralized data management
 - **Error Handling:** Robust waits and error recovery
+- **Direct Test Steps:** All test steps are written directly in test scenarios for clarity
 
 ### Test Structure
 **File:** `tests/eBikeInsuranceJourney.spec.ts`
@@ -367,11 +378,10 @@ Not all addresses will autocomplete (invalid addresses, new addresses, internati
 - `PaymentPage` - Payment processing
 - `ConfirmationPage` - Purchase confirmation
 
-**Flow Utilities (`utils/flow.ts`):**
-- `enterSellingFlowFromEbike()` - Entry point handling
-- `fillQuoteStart()` - Quote form completion
-- `fillBikeDetails()` - Bike information capture
-- `fillUserDetails()` - Personal data collection
+**Test Approach:**
+- All test steps are written directly in test scenarios for maximum clarity and maintainability
+- Test steps include detailed comments explaining each action
+- Form filling logic is embedded in test cases for easy understanding
 
 ### Test Data Management
 Centralized in `utils/test-data.ts` for maintainability and consistency.
@@ -436,13 +446,23 @@ Using `data-test` attributes where available for stability. Role-based selectors
 - Confirmation verification
 
 **Coverage Gaps (Planned):**
-- Payment validation scenarios
-- Payment error recovery
-- Quote calculation verification
-- Policy generation validation
-- Date business rules validation
-- Email matching validation
-- Data persistence validation
+- Payment validation scenarios (TC-004, TC-014)
+- Payment error recovery (TC-005)
+- Quote calculation verification (TC-006, TC-011)
+- Policy generation validation (TC-007)
+- Date business rules validation (TC-008, TC-024)
+- Email matching validation (TC-009)
+- Data persistence validation (TC-010, TC-019)
+- Bike type selection (TC-015)
+- Lock confirmation validation (TC-016)
+- Frame number validation (TC-017)
+- Address autocomplete (TC-012, TC-018)
+- Payment method selection (TC-013)
+- Cookie banner handling (TC-020)
+- Quote continue page (TC-021)
+- Browser session handling (TC-022)
+- Form timeout handling (TC-023)
+- Special characters handling (TC-025)
 
 **Additional Considerations (Future):**
 - Cross-browser compatibility (Firefox, Safari)

@@ -1,6 +1,7 @@
 import { BasePage } from './BasePage.page';
+import { expect } from '@playwright/test';
 
-export class ApplicationFormPage extends BasePage {
+export class AddonConfirmationPage extends BasePage {
   get continueButton() {
     // Priority: data-test > id > type submit > text
     return this.page.locator(
@@ -13,11 +14,8 @@ export class ApplicationFormPage extends BasePage {
     ).first();
   }
 
-  get errorMessage() {
-    return this.page.locator('.error, [class*="error"]').first();
-  }
-
-  async verifyApplicationFormLoaded(): Promise<void> {
+  async verifyAddonConfirmationPageLoaded(): Promise<void> {
+    await expect(this.page).toHaveURL(/\/ebike\/addon-confirmation/);
     await this.page.waitForLoadState('networkidle');
   }
 
@@ -55,8 +53,12 @@ export class ApplicationFormPage extends BasePage {
       // Fallback to the getter
       await this.continueButton.waitFor({ state: 'visible', timeout: 15000 });
       await this.continueButton.scrollIntoViewIfNeeded();
+      await this.page.waitForTimeout(500);
       await this.continueButton.click();
     }
+    
+    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForTimeout(1000);
   }
 }
 
